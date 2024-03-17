@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище OTELModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Guests">
+    <Key>
+      <PropertyRef Name="ID_Guest" />
+    </Key>
+    <Property Name="ID_Guest" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Phone" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Reservations">
+    <Key>
+      <PropertyRef Name="ID_Reservation" />
+    </Key>
+    <Property Name="ID_Reservation" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Guest_ID" Type="int" />
+    <Property Name="RoomNumber_ID" Type="int" />
+    <Property Name="CheckInDate" Type="date" />
+    <Property Name="CheckOutDate" Type="date" />
+  </EntityType>
+  <EntityType Name="Rooms">
+    <Key>
+      <PropertyRef Name="ID_RoomNumber" />
+    </Key>
+    <Property Name="ID_RoomNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoomType" Type="varchar" MaxLength="50" />
+    <Property Name="Rate" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Occupied" Type="bit" />
+  </EntityType>
+  <EntityType Name="SalesDepartment">
+    <Key>
+      <PropertyRef Name="ID_Sale" />
+    </Key>
+    <Property Name="ID_Sale" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Reservation_ID" Type="int" />
+    <Property Name="SaleAmount" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="SaleDate" Type="date" />
+  </EntityType>
+  <Association Name="FK__Reservati__Guest__3B75D760">
+    <End Role="Guests" Type="Self.Guests" Multiplicity="0..1" />
+    <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Guests">
+        <PropertyRef Name="ID_Guest" />
+      </Principal>
+      <Dependent Role="Reservations">
+        <PropertyRef Name="Guest_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Reservati__RoomN__3C69FB99">
+    <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+    <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rooms">
+        <PropertyRef Name="ID_RoomNumber" />
+      </Principal>
+      <Dependent Role="Reservations">
+        <PropertyRef Name="RoomNumber_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SalesDepa__Reser__3F466844">
+    <End Role="Reservations" Type="Self.Reservations" Multiplicity="0..1" />
+    <End Role="SalesDepartment" Type="Self.SalesDepartment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reservations">
+        <PropertyRef Name="ID_Reservation" />
+      </Principal>
+      <Dependent Role="SalesDepartment">
+        <PropertyRef Name="Reservation_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище OTELModelContainer">
+    <EntitySet Name="Guests" EntityType="Self.Guests" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesDepartment" EntityType="Self.SalesDepartment" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Reservati__Guest__3B75D760" Association="Self.FK__Reservati__Guest__3B75D760">
+      <End Role="Guests" EntitySet="Guests" />
+      <End Role="Reservations" EntitySet="Reservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Reservati__RoomN__3C69FB99" Association="Self.FK__Reservati__RoomN__3C69FB99">
+      <End Role="Rooms" EntitySet="Rooms" />
+      <End Role="Reservations" EntitySet="Reservations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SalesDepa__Reser__3F466844" Association="Self.FK__SalesDepa__Reser__3F466844">
+      <End Role="Reservations" EntitySet="Reservations" />
+      <End Role="SalesDepartment" EntitySet="SalesDepartment" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
